@@ -4,7 +4,7 @@ let x = 200;
 let y = 200;
 let speed = 0;
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(400, 400);
 }
 
 // function draw() {}
@@ -55,20 +55,17 @@ class Mercat {
   }
 }
 
-
 const mercat = new Mercat(200, 300, 70, 100);  
-
-
 
 function draw() {
   clear(); 
   mercat.y = mercat.y + speed;
   mercat.draw(); 
   if (keyIsDown(37)){
-mercat.x = mercat.x -5
+mercat.x = mercat.x -5;
   }
 if (keyIsDown(39)) {
-  mercat.x = mercat.x +5
+  mercat.x = mercat.x +5;
 }
 if (keyIsDown(38)) {
   speed=-5;
@@ -78,6 +75,5 @@ if (keyIsDown(38)) {
   speed=0;
 
 }
-
 }
 
