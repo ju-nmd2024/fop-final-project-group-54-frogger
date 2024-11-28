@@ -4,7 +4,7 @@ let x = 200;
 let y = 200;
 let speed = 1;
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 400);
 }
 
 // function draw() {}
@@ -56,6 +56,7 @@ class Mercat {
 
 class Enemy {
   constructor(x, y, width, height) {
+    //got help from student Alen on how to an an image
     this.img = loadImage("/assets/lion.png");
     this.x = x;
     this.y = y;
@@ -71,8 +72,7 @@ class Enemy {
 }
 
 const mercat = new Mercat(200, 300, 70, 100);
-const enemy = new Enemy(400, 200, 70, 70);
-
+const enemy = new Enemy(600, 200, 70, 70);
 
 function draw() {
   clear();
@@ -88,10 +88,12 @@ function draw() {
     mercat.x = mercat.x + 5;
   }
   if (keyIsDown(38)) {
-    mercat.y = mercat.y -5;
+    mercat.y = mercat.y - 5;
   } else if (keyIsDown(40)) {
-    mercat.y = mercat.y+ 5;
+    mercat.y = mercat.y + 5;
   } else {
-    speed = 0; 
+    speed = 0;
   }
+  fill(240, 240, 240);
+  rect(200, 450, 200, 600);
 }
