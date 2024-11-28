@@ -57,7 +57,7 @@ class Mercat {
 
 class Enemy {
   constructor(x, y, width, height) {
-    this.img = loadImage("/assets/png.jpeg");
+    this.img = loadImage("/assets/lion.png");
     this.x = x;
     this.y = y;
     this.width = width;
@@ -72,13 +72,14 @@ class Enemy {
 }
 
 const mercat = new Mercat(200, 300, 70, 100);
-const enemy = new Enemy(100, 200, 50, 50);
+const enemy = new Enemy(400, 200, 50, 50);
+
 
 function draw() {
   clear();
   enemy.x = enemy.x + speed;
   mercat.y = mercat.y + speed;
-  enemy.x = enemy.x + 1;
+  enemy.x = enemy.x - 1;
   mercat.draw();
   enemy.draw();
   if (keyIsDown(37)) {
@@ -92,6 +93,6 @@ function draw() {
   } else if (keyIsDown(40)) {
     mercat.y = mercat.y+ 5;
   } else {
-    speed = 0;
+    speed = 0; 
   }
 }
