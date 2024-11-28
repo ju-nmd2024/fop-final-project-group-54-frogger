@@ -63,3 +63,4 @@ function draw() {
   clear(); 
   mercat.draw();  
 }
+
