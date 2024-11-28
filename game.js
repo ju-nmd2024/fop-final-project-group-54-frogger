@@ -16,7 +16,6 @@ function setup() {
 // }
 
 // function gameScreen() {}
-
 // function winScreen() {
 //   //meerkat holding nut
 // }
@@ -72,7 +71,7 @@ class Enemy {
 }
 
 const mercat = new Mercat(200, 300, 70, 100);
-const enemy = new Enemy(400, 200, 50, 50);
+const enemy = new Enemy(400, 200, 70, 70);
 
 
 function draw() {
