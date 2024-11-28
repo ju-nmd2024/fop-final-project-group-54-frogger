@@ -1,7 +1,7 @@
 let state = "start";
 
 function setup() {
-  createCanvas(700, 700);
+  createCanvas(800, 800);
 }
 
 function draw() {}
@@ -34,4 +34,32 @@ function mouseClicked() {
 
     // we have to fix so it is adapted to this game, if meerkat touches lion he loses
   }
+}
+
+class Mercat {
+  constructor(x, y, width, height) {
+      this.img = loadImage("/assets/mercat.png"); 
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+  }
+
+  draw() {
+      push();
+      image(this.img, this.x, this.y, this.width, this.height);  // Now it will use the width and height
+      pop();
+  }
+}
+
+
+const mercat = new Mercat(200, 300, 70, 100);  
+
+function setup() {
+  createCanvas(400, 400);  
+}
+
+function draw() {
+  clear(); 
+  mercat.draw();  
 }
