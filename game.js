@@ -2,7 +2,7 @@ let state = "start";
 
 let x = 200;
 let y = 200;
-let speed = 0;
+let speed = 1;
 function setup() {
   createCanvas(400, 400);
 }
@@ -41,39 +41,57 @@ function setup() {
 
 class Mercat {
   constructor(x, y, width, height) {
-      this.img = loadImage("/assets/mercat.png"); 
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
+    this.img = loadImage("/assets/mercat.png");
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   }
 
   draw() {
-      push();
-      image(this.img, this.x, this.y, this.width, this.height);  // Now it will use the width and height
-      pop();
+    push();
+    image(this.img, this.x, this.y, this.width, this.height);
+    pop();
   }
 }
 
-const mercat = new Mercat(200, 300, 70, 100);  
+class Enemy {
+  constructor(x, y, width, height) {
+    this.img = loadImage("/assets/png.jpeg");
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  draw() {
+    push();
+    image(this.img, this.x, this.y, this.width, this.height);
+    pop();
+  }
+}
+
+const mercat = new Mercat(200, 300, 70, 100);
+const enemy = new Enemy(100, 200, 50, 50);
 
 function draw() {
-  clear(); 
+  clear();
+  enemy.x = enemy.x + speed;
   mercat.y = mercat.y + speed;
-  mercat.draw(); 
-  if (keyIsDown(37)){
-mercat.x = mercat.x -5;
+  enemy.x = enemy.x + 1;
+  mercat.draw();
+  enemy.draw();
+  if (keyIsDown(37)) {
+    mercat.x = mercat.x - 5;
   }
-if (keyIsDown(39)) {
-  mercat.x = mercat.x +5;
+  if (keyIsDown(39)) {
+    mercat.x = mercat.x + 5;
+  }
+  if (keyIsDown(38)) {
+    mercat.y = mercat.y -5;
+  } else if (keyIsDown(40)) {
+    mercat.y = mercat.y+ 5;
+  } else {
+    speed = 0;
+  }
 }
-if (keyIsDown(38)) {
-  speed=-5;
-}else if (keyIsDown(40)){
-  speed = 5;
-}else{
-  speed=0;
-
-}
-}
-
