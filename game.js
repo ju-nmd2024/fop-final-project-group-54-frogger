@@ -72,11 +72,12 @@ class Enemy {
 }
 
 const mercat = new Mercat(250, 460, 70, 100);
-const enemy = new Enemy(600, 200, 70, 70);
+const enemy = new Enemy(600, 200, 100, 100);
 
 function draw() {
   clear();
-  fill(240, 240, 240);
+  noStroke();
+  fill(220, 199, 155);
   rect(0, 450, 600, 150);
   enemy.x = enemy.x + speed;
   mercat.y = mercat.y + speed;
