@@ -4,7 +4,7 @@ let x = 200;
 let y = 200;
 let speed = 1;
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(600, 600);
 }
 
 // function draw() {}
@@ -71,11 +71,13 @@ class Enemy {
   }
 }
 
-const mercat = new Mercat(200, 300, 70, 100);
+const mercat = new Mercat(250, 460, 70, 100);
 const enemy = new Enemy(600, 200, 70, 70);
 
 function draw() {
   clear();
+  fill(240, 240, 240);
+  rect(0, 450, 600, 150);
   enemy.x = enemy.x + speed;
   mercat.y = mercat.y + speed;
   enemy.x = enemy.x - 1;
@@ -94,6 +96,5 @@ function draw() {
   } else {
     speed = 0;
   }
-  fill(240, 240, 240);
-  rect(200, 450, 200, 600);
+  
 }
