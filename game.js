@@ -4,7 +4,7 @@ let x = 200;
 let y = 200;
 let speed = 1;
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(600, 800);
 }
 
 // function draw() {}
@@ -42,7 +42,7 @@ class Mercat {
   constructor(x, y, width, height) {
     this.img = loadImage("/assets/mercat.png");
     this.x = x;
-    this.y = y;
+    this.y = y; 
     this.width = width;
     this.height = height;
   }
@@ -72,14 +72,14 @@ class Obstacle {
   }
 }
 
-const mercat = new Mercat(250, 460, 70, 100);
+const mercat = new Mercat(250, 650, 70, 100);
 const obstacle = new Obstacle(600, 200, 100, 100);
 
 function draw() {
   clear();
   noStroke();
   fill(220, 199, 155);
-  rect(0, 450, 600, 150);
+  rect(0, 650, 600, 150);
   obstacle.x = obstacle.x + speed;
   mercat.y = mercat.y + speed;
   obstacle.x = obstacle.x - 1;
@@ -98,5 +98,4 @@ function draw() {
   } else {
     speed = 0;
   }
-  
 }
