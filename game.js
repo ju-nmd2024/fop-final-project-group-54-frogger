@@ -47,6 +47,7 @@ class Mercat {
     this.height = height;
   }
 
+
   draw() {
     push();
     image(this.img, this.x, this.y, this.width, this.height);
@@ -54,7 +55,7 @@ class Mercat {
   }
 }
 
-class Enemy {
+class Obstacle {
   constructor(x, y, width, height) {
     //got help from student Alen on how to an an image
     this.img = loadImage("/assets/lion.png");
@@ -72,18 +73,18 @@ class Enemy {
 }
 
 const mercat = new Mercat(250, 460, 70, 100);
-const enemy = new Enemy(600, 200, 100, 100);
+const obstacle = new Obstacle(600, 200, 100, 100);
 
 function draw() {
   clear();
   noStroke();
   fill(220, 199, 155);
   rect(0, 450, 600, 150);
-  enemy.x = enemy.x + speed;
+  obstacle.x = obstacle.x + speed;
   mercat.y = mercat.y + speed;
-  enemy.x = enemy.x - 1;
+  obstacle.x = obstacle.x - 1;
   mercat.draw();
-  enemy.draw();
+  obstacle.draw();
   if (keyIsDown(37)) {
     mercat.x = mercat.x - 5;
   }
