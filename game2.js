@@ -2,31 +2,9 @@ let state = "start";
 
 let x = 200;
 let y = 200;
-let speed = 5;
-let obstaclesRight = [];
-let obstaclesLeft = [];
-let logsRight = [];
-let logsLeft = [];
-
-function preload() {
-  mercatImg = loadImage("/assets/mercat.png");
-  lionImg = loadImage("/assets/lion.png");
-}
-
+let speed = 1;
 function setup() {
   createCanvas(600, 800);
-
-  for (i = 0; i < 25; i++) {
-    obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85));
-    obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85));
-  }
-  for (i = 0; i < 25; i++) {
-    logsRight.push(new Log(600 + i * 300, 125, 100, 30));
-    logsLeft.push(new Log(-100 - i * 300, 155, 100, 30));
-  }
-
-  //console.log('Obstacles Right:', obstaclesRight);
-  //console.log('Obstacles Left:', obstaclesLeft);
 }
 
 // function draw() {}
@@ -56,21 +34,10 @@ function setup() {
 //     state = "start";
 //     //velocity = 0; characterY = -400; from alien game
 
-//
+//     // we have to fix so it is adapted to this game, if meerkat touches lion he loses
 //   }
 // }
-class Log {
-  constructor(x, y, width, height) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-  draw() {
-    fill(50, 50, 50);
-    rect(this.x, this.y, this.width, this.height);
-  }
-}
+
 class Mercat {
   constructor(x, y, width, height) {
     this.img = loadImage("/assets/mercat.png");
@@ -99,51 +66,22 @@ class Obstacle {
 
   draw() {
     push();
-
-    //if (this.x < 0) {
-    // scale(-1, 1);
-    //translate( -this.x - this.width, 0);
-    //}
     image(this.img, this.x, this.y, this.width, this.height);
     pop();
   }
 }
 
-const mercat = new Mercat(250, 650, 50, 80);
-const obstacle = new Obstacle();
-const log = new Log();
+const mercat = new Mercat(250, 650, 70, 100);
+const obstacle = new Obstacle(600, 200, 100, 100);
 
 function draw() {
-  //sand
   clear();
   noStroke();
   fill(220, 199, 155);
-  rect(0, 680, 600, 150);
-  //water
-  noStroke();
-  fill(0, 50, 255);
-  rect(0, 110, 600, 150);
-  //lions moving, Erik Sandquist helped us with following 10 lines
+  rect(0, 650, 600, 150);
   obstacle.x = obstacle.x + speed;
-  for (let i = 0; i < obstaclesRight.length; i++) {
-    const element = obstaclesRight[i];
-    element.draw();
-    element.x = element.x - 5;
-  }
-  for (let i = 0; i < obstaclesLeft.length; i++) {
-    const element = obstaclesLeft[i];
-    element.draw();
-    element.x = element.x + 5;
-  }
-
-  //if(obstaclesRight.x <= -100) {
-  //obstaclesRight.splice(index, 1);
-  //obstaclesRight.push(new Obstacle (600 + i * 300, 320, 100, 100));
-  //}
-
-  //meerkat moving
   mercat.y = mercat.y + speed;
-  obstacle.x = obstacle.x - 5;
+  obstacle.x = obstacle.x - 1;
   mercat.draw();
   obstacle.draw();
   if (keyIsDown(37)) {
