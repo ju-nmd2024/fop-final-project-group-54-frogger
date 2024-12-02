@@ -1,12 +1,36 @@
-let state = "start";
+import Mercat from "./mercat";
+import Obstacle from "./obstacle";
+import Log from "./log";
 
-let x = 200;
-let y = 200;
-let speed = 5;
+let state = "start";
+let mercat;
 let obstaclesRight = [];
 let obstaclesLeft = [];
 let logsRight = [];
 let logsLeft = [];
+let logsRight2 = [];
+let lives = 3;
+
+function resetGame() {
+  state = "start";
+  mercat = new Mercat(250, 650, 30, 50);
+
+  let obstaclesRight = [];
+  let obstaclesLeft = [];
+  let logsRight = [];
+  let logsLeft = [];
+  let logsRight2 = [];
+
+  for (i = 0; i < 25; i++) {
+    obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85, false));
+    obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85, true));
+  }
+  for (i = 0; i < 25; i++) {
+    logsRight.push(new Log(600 + i * 300, 118, 100, 30));
+    logsLeft.push(new Log(-100 - i * 300, 155, 100, 30));
+    logsRight2.push(new Log(600 + i * 300, 185, 100, 30));
+  }
+}
 
 function preload() {
   mercatImg = loadImage("/assets/mercat.png");
@@ -16,104 +40,48 @@ function preload() {
 function setup() {
   createCanvas(600, 800);
 
+  mercat = new Mercat(250, 650, 30, 50);
+
   for (i = 0; i < 25; i++) {
-    obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85));
-    obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85));
+    obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85, false));
+    obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85, true));
   }
   for (i = 0; i < 25; i++) {
     logsRight.push(new Log(600 + i * 300, 125, 100, 30));
-    logsLeft.push(new Log(-100 - i * 300, 155, 100, 30));
-  }
-
-  //console.log('Obstacles Right:', obstaclesRight);
-  //console.log('Obstacles Left:', obstaclesLeft);
-}
-
-// function draw() {}
-
-// function startScreen() {
-//   //button
-//   //background of savannah with lion from illustartor
-//   //meerkat
-// }
-
-// function gameScreen() {}
-// function winScreen() {
-//   //meerkat holding nut
-// }
-
-// function loseScreen() {
-//   //sad meerkat
-// }
-
-// function mouseClicked() {
-//   if (state === "start") {
-//     state = "game";
-//   } else if (state === "lost") {
-//     state = "start";
-//     //velocity = 0; characterY = -400; from alien game
-//   } else if (state === "win") {
-//     state = "start";
-//     //velocity = 0; characterY = -400; from alien game
-
-//
-//   }
-// }
-class Log {
-  constructor(x, y, width, height) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-  draw() {
-    fill(50, 50, 50);
-    rect(this.x, this.y, this.width, this.height);
+    logsLeft.push(new Log(-100 - i * 300, 175, 100, 30));
+    logsRight2.push(new Log(600 + i * 300, 220, 100, 30));
   }
 }
-class Mercat {
-  constructor(x, y, width, height) {
-    this.img = loadImage("/assets/mercat.png");
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-
-  draw() {
-    push();
-    image(this.img, this.x, this.y, this.width, this.height);
-    pop();
-  }
+function resetMercat() {
+  mercat.x = 250;
+  mercat.y = 650;
 }
 
-class Obstacle {
-  constructor(x, y, width, height) {
-    //got help from student Alen on how to an an image
-    this.img = loadImage("/assets/lion.png");
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-
-  draw() {
-    push();
-
-    //if (this.x < 0) {
-    // scale(-1, 1);
-    //translate( -this.x - this.width, 0);
-    //}
-    image(this.img, this.x, this.y, this.width, this.height);
-    pop();
-  }
+function startScreen() {
+  fill(200, 200, 200);
+  textSize(40);
+  text("click to play", width / 2, height / 2);
+}
+function loseScreen() {
+  fill(255, 0, 0);
+  textSize(32);
+  text("Nooo Mercat is dead", width / 2, height / 2);
+}
+function winScreen() {
+  fill(0, 255, 1);
+  textSize(30);
+  text("Yeyyy i made it", width / 2, height / 2);
+}
+function checkCollision(mercat, obstacle) {
+  return (
+    mercat.x < obstacle.x + obstacle.width &&
+    mercat.x + mercat.width > obstacle.x &&
+    mercat.y < obstacle.y + obstacle.height &&
+    mercat.y + mercat.height > obstacle.y
+  );
 }
 
-const mercat = new Mercat(250, 650, 50, 80);
-const obstacle = new Obstacle();
-const log = new Log();
-
-function draw() {
+function gameScreen() {
   //sand
   clear();
   noStroke();
@@ -122,30 +90,98 @@ function draw() {
   //water
   noStroke();
   fill(0, 50, 255);
-  rect(0, 110, 600, 150);
+  rect(0, 125, 600, 150);
   //lions moving, Erik Sandquist helped us with following 10 lines
-  obstacle.x = obstacle.x + speed;
-  for (let i = 0; i < obstaclesRight.length; i++) {
-    const element = obstaclesRight[i];
-    element.draw();
-    element.x = element.x - 5;
-  }
+  let onLog = false;
+  let onLand = false;
+  let logSpeed = 0;
   for (let i = 0; i < obstaclesLeft.length; i++) {
     const element = obstaclesLeft[i];
     element.draw();
     element.x = element.x + 5;
+
+    if (checkCollision(mercat, element)) {
+      lives--;
+      if (lives <= 0) {
+        state = "lost";
+        resetGame();
+      } else {
+        resetMercat();
+      }
+
+      //state = "lost";
+      //resetGame();
+    }
   }
 
-  //if(obstaclesRight.x <= -100) {
-  //obstaclesRight.splice(index, 1);
-  //obstaclesRight.push(new Obstacle (600 + i * 300, 320, 100, 100));
-  //}
+  for (let i = 0; i < obstaclesRight.length; i++) {
+    const element = obstaclesRight[i];
+    element.draw();
+    element.x = element.x - 5;
 
-  //meerkat moving
-  mercat.y = mercat.y + speed;
-  obstacle.x = obstacle.x - 5;
-  mercat.draw();
-  obstacle.draw();
+    if (checkCollision(mercat, element)) {
+      lives--;
+      if (lives <= 0) {
+        state = "lost";
+        resetGame();
+      } else {
+        resetMercat();
+      }
+      //state = "lost";
+      //resetGame();
+    }
+  }
+
+  for (let i = 0; i < logsLeft.length; i++) {
+    const element = logsLeft[i];
+    element.draw();
+    element.x = element.x + 2;
+
+    if (!(mercat.y > 255 || mercat.y < 100)) {
+      if (checkCollision(mercat, element)) {
+        onLog = true;
+      }
+    } else {
+      onLand = true;
+    }
+  }
+
+  for (let i = 0; i < logsRight.length; i++) {
+    const element = logsRight[i];
+    element.draw();
+    element.x = element.x - 2;
+
+    if (!(mercat.y > 255 || mercat.y < 100)) {
+      if (checkCollision(mercat, element)) {
+        onLog = true;
+      }
+    } else {
+      onLand = true;
+    }
+  }
+
+  for (let i = 0; i < logsRight2.length; i++) {
+    const element = logsRight2[i];
+    element.draw();
+    element.x = element.x - 2;
+
+    if (!(mercat.y > 255 || mercat.y < 100)) {
+      if (checkCollision(mercat, element)) {
+        onLog = true;
+        logVelocity = element.y;
+      }
+    } else {
+      onLand = true;
+    }
+  }
+
+  if (onLog === false && onLand === false) {
+    state = "lost";
+    resetGame();
+  } else if (onLog === true) {
+    mercat.x = mercat.x + 2;
+  }
+
   if (keyIsDown(37)) {
     mercat.x = mercat.x - 5;
   }
@@ -154,9 +190,36 @@ function draw() {
   }
   if (keyIsDown(38)) {
     mercat.y = mercat.y - 5;
-  } else if (keyIsDown(40)) {
+  }
+  if (keyIsDown(40)) {
     mercat.y = mercat.y + 5;
-  } else {
-    speed = 0;
+  }
+
+  if (mercat.y <= 110) {
+    winScreen();
+    state = "win";
+  }
+  mercat.draw();
+}
+
+function draw() {
+  if (state === "start") {
+    startScreen();
+  } else if (state === "game") {
+    gameScreen();
+  } else if (state === "win") {
+    winScreen();
+  } else if (state === "lost") {
+    loseScreen();
+  }
+}
+
+function mouseClicked() {
+  if (state === "start") {
+    state = "game";
+  } else if (state === "lost") {
+    state = "start";
+  } else if (state === "win") {
+    state = "start";
   }
 }
