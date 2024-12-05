@@ -6,7 +6,7 @@ export default class Log {
     this.height = 40;
   }
   draw() {
-    fill(50, 50, 50);
+    fill(216, 176, 145);
     rect(this.x, this.y, this.width, this.height);
   }
 }
