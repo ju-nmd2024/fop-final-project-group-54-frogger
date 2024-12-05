@@ -25,10 +25,12 @@ function resetGame() {
   let logsLeft = [];
   let logsRight2 = [];
 
+  //Lions
   for (i = 0; i < 2; i++) {
     obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85, false));
     obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85, true));
   }
+  //Logs
   for (i = 0; i < 2; i++) {
     logsRight.push(new Log(600 + i * 300, 118, 100, 30));
     logsLeft.push(new Log(-100 - i * 300, 155, 100, 30));
@@ -50,10 +52,12 @@ function setup() {
 
   mercat = new Mercat(250, 650, 30, 50);
 
+  //Lions
   for (i = 0; i < 2; i++) {
     obstaclesRight.push(new Obstacle(600 + i * 300, 370, 85, 85, false));
     obstaclesLeft.push(new Obstacle(-100 - i * 300, 550, 85, 85, true));
   }
+  //Logs
   for (i = 0; i < 2; i++) {
     logsRight.push(new Log(600 + i * 300, 125, 100, 30));
     logsLeft.push(new Log(-100 - i * 300, 175, 100, 30));
@@ -105,7 +109,7 @@ function gameScreen() {
   //display of the score
   textSize(20);
   fill(0, 255, 0);
-  //see reference in line 226
+  //see reference in line 255
   text(`Score: ${score}`, 10, 30);
   fill(255, 0, 0);
   text(`Lives: ${lives}`, 10, 60);
@@ -130,7 +134,7 @@ function gameScreen() {
         resetMercat();
       }
     }
-
+    //Lions keep coming from the left
     if (element.x > 620) {
       element.x = -70;
     }
@@ -151,6 +155,7 @@ function gameScreen() {
       }
     }
 
+    //Lions keep coming from the right
     if (element.x < -70) {
       element.x = 600;
     }
@@ -169,6 +174,8 @@ function gameScreen() {
     } else {
       onLand = true;
     }
+
+    //Logs keep coming from the left
     if (element.x > 600) {
       element.x = -90;
     }
@@ -186,6 +193,8 @@ function gameScreen() {
     } else {
       onLand = true;
     }
+
+    //Logs kep coming from the right on the top
     if (element.x < -90) {
       element.x = 600;
     }
@@ -203,6 +212,8 @@ function gameScreen() {
     } else {
       onLand = true;
     }
+
+    //Logs keep coming from the right at the bottom
     if (element.x < -90) {
       element.x = 600;
     }
@@ -228,6 +239,7 @@ function gameScreen() {
     mercat.x = mercat.x - 2;
   }
 
+  //Meerkat moving with the arrows
   if (keyIsDown(37)) {
     mercat.x = mercat.x - 5;
   }
@@ -261,7 +273,6 @@ function draw() {
     winScreen();
   } else if (state === "lost") {
     loseScreen();
-    //resetGame();
   }
 }
 
